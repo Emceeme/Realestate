@@ -93,7 +93,7 @@ include 'components/save_send.php';
       <div class="flex">
          <div class="box">
             <p><i>rooms :</i><span><?= $fetch_property['bhk']; ?> BHK</span></p>
-            <p><i>deposit amount : </i><span><span class="fas fa-indian-rupee-sign" style="margin-right: .5rem;"></span><?= $fetch_property['deposite']; ?></span></p>
+            <p><i>deposit amount : </i><span><span class="fas fa-Peso" style="margin-right: .5rem;"></span><?= $fetch_property['deposite']; ?></span></p>
             <p><i>status :</i><span><?= $fetch_property['status']; ?></span></p>
             <p><i>bedroom :</i><span><?= $fetch_property['bedroom']; ?></span></p>
             <p><i>bathroom :</i><span><?= $fetch_property['bathroom']; ?></span></p>

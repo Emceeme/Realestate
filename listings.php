@@ -147,8 +147,6 @@ include 'components/save_send.php';
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-<?php include 'components/footer.php'; ?>
-
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
 

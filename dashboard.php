@@ -97,6 +97,16 @@ if(isset($_COOKIE['user_id'])){
       <a href="saved.php" class="btn">view saved properties</a>
       </div>
 
+      <div class="box">
+         <?php
+         $count_saved_properties = $conn ->prepare("SELECT * FROM `saved` WHERE user_id=?");
+         $count_saved_properties -> execute([$user_id]);
+         $total_saved_properties= $count_saved_properties->rowCount();
+         ?>
+         <h3><?=$total_saved_properties; ?></h3>
+         <p>Request Accepted</p>
+         <a href="#" class="btn">View Accepted request</a>
+      </div>
    </div>
 
 </section>
