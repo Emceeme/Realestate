@@ -21,7 +21,7 @@ if(isset($_POST['submit'])){
 
    if($select_users->rowCount() > 0){
       setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
-      header('location:home.php');
+      header('location:choose_role.php');
    }else{
       $warning_msg[] = 'Incorrect username or password!';
    }
@@ -76,7 +76,6 @@ if(isset($_POST['submit'])){
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-<?php include 'components/footer.php'; ?>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>

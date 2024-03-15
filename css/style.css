@@ -14,7 +14,8 @@
    font-family: 'Montserrat', sans-serif;
    margin: 0; padding: 0;
    box-sizing: border-box;
-   outline: none; border: none;
+   outline: none; 
+   border: none;
    text-decoration: none;
 }
 
@@ -195,7 +196,6 @@ section{
 }
 
 .home{
-   background:url('../images/home-bg.jpg') no-repeat;
    background-size: cover;
    background-position: center;
 }
@@ -249,40 +249,6 @@ section{
 
 .home .center form .box p span{
    color: var(--main-color);
-}
-
-.services .box-container{
-   display: grid;
-   grid-template-columns: repeat(auto-fit, 30rem);
-   gap: 2rem;
-   justify-content: center;
-   align-items: flex-start;
-}
-
-.services .box-container .box{
-   background-color: var(--white);
-   box-shadow: var(--box-shodow);
-   padding: 2rem;
-   text-align: center;
-}
-
-.services .box-container .box img{
-   margin: 1rem 0;
-   height: 8rem;
-}
-
-.services .box-container .box h3{
-   font-size: 2rem;
-   padding: 1rem 0;
-   color: var(--black);
-   text-transform: capitalize;
-}
-
-.services .box-container .box p{
-   line-height: 2;
-   font-size: 1.6rem;
-   color: var(--light-color);
-   padding-top: .5rem;
 }
 
 .listings .box-container{

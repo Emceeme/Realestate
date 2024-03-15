@@ -48,12 +48,6 @@ if(isset($_COOKIE['user_id'])){
       </div>
 
       <div class="box">
-         <h3>filter search</h3>
-         <p>search your dream property</p>
-         <a href="search.php" class="btn">search now</a>
-      </div>
-
-      <div class="box">
       <?php
         $count_properties = $conn->prepare("SELECT * FROM `property` WHERE user_id = ?");
         $count_properties->execute([$user_id]);
@@ -87,17 +81,6 @@ if(isset($_COOKIE['user_id'])){
       </div>
 
       <div class="box">
-      <?php
-        $count_saved_properties = $conn->prepare("SELECT * FROM `saved` WHERE user_id = ?");
-        $count_saved_properties->execute([$user_id]);
-        $total_saved_properties = $count_saved_properties->rowCount();
-      ?>
-      <h3><?= $total_saved_properties; ?></h3>
-      <p>properties saved</p>
-      <a href="saved.php" class="btn">view saved properties</a>
-      </div>
-
-      <div class="box">
          <?php
          $count_saved_properties = $conn ->prepare("SELECT * FROM `saved` WHERE user_id=?");
          $count_saved_properties -> execute([$user_id]);
@@ -114,28 +97,7 @@ if(isset($_COOKIE['user_id'])){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-<?php include 'components/footer.php'; ?>
-
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
 

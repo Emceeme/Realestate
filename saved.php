@@ -6,6 +6,7 @@ if(isset($_COOKIE['user_id'])){
    $user_id = $_COOKIE['user_id'];
 }else{
    $user_id = '';
+   header('location:login.php');
 }
 
 include 'components/save_send.php';
@@ -18,7 +19,7 @@ include 'components/save_send.php';
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Home</title>
+   <title>saved</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -31,84 +32,22 @@ include 'components/save_send.php';
    
 <?php include 'components/user_header.php'; ?>
 
-
-<!-- home section starts  -->
-
-<div class="home">
-
-   <section class="center">
-
-      <form action="search.php" method="post">
-         <div class="flex">
-            <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="h_min" class="input" required>
-                  <option value="1000">1000</option>
-                  <option value="1500">1500</option>
-                  <option value="2000">2000</option>
-                  <option value="3000">3000</option>
-                  <option value="3500">3500</option>
-                  <option value="4000">4000</option>
-                  <option value="4500">4500</option>
-                  <option value="5000">5000</option>
-                  <option value="5500">5500</option>
-               </select>
-            </div>
-            <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="h_max" class="input" required>
-                  <option value="1000">1000</option>
-                  <option value="1500">1500</option>
-                  <option value="2000">2000</option>
-                  <option value="3000">3000</option>
-                  <option value="3500">3500</option>
-                  <option value="4000">4000</option>
-                  <option value="4500">4500</option>
-                  <option value="5000">5000</option>
-                  <option value="5500">5500</option>
-
-               </select>
-            </div>
-            <div class="box">
-               <p>status</p>
-               <select name="status" class="input" required>
-                  <option value="ready to move">ready to move</option>
-                  <option value="under construction">under construction</option>
-               </select>
-            </div>
-            <div class="box">
-               <p>furnished</p>
-               <select name="furnished" class="input" required>
-                  <option value="unfurnished">unfurnished</option>
-                  <option value="furnished">furnished</option>
-                  <option value="semi-furnished">semi-furnished</option>
-               </select>
-            </div>
-         </div>
-         </div>
-         <input type="submit" value="search property" name="h_search" class="btn">
-      </form>
-
-   </section>
-
-</div>
-
-<!-- home section ends -->
-
-<!-- listings section starts  -->
-
 <section class="listings">
 
-   <h1 class="heading">latest listings</h1>
+   <h1 class="heading">saved listings</h1>
 
    <div class="box-container">
       <?php
          $total_images = 0;
-         $select_properties = $conn->prepare("SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
-         $select_properties->execute();
+         $select_saved_property = $conn->prepare("SELECT * FROM `saved` WHERE user_id = ?");
+         $select_saved_property->execute([$user_id]);
+         if($select_saved_property->rowCount() > 0){
+         while($fetch_saved = $select_saved_property->fetch(PDO::FETCH_ASSOC)){
+         $select_properties = $conn->prepare("SELECT * FROM `property` WHERE id = ? ORDER BY date DESC");
+         $select_properties->execute([$fetch_saved['property_id']]);
          if($select_properties->rowCount() > 0){
             while($fetch_property = $select_properties->fetch(PDO::FETCH_ASSOC)){
-               
+
             $select_user = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
             $select_user->execute([$fetch_property['user_id']]);
             $fetch_user = $select_user->fetch(PDO::FETCH_ASSOC);
@@ -146,7 +85,7 @@ include 'components/save_send.php';
             <?php
                if($select_saved->rowCount() > 0){
             ?>
-            <button type="submit" name="save" class="save"><i class="fas fa-heart"></i><span>saved</span></button>
+            <button type="submit" name="save" class="save"><i class="fas fa-heart"></i><span>remove from saved</span></button>
             <?php
                }else{ 
             ?>
@@ -185,23 +124,19 @@ include 'components/save_send.php';
          </div>
       </form>
       <?php
+               }
+            }else{
+               echo '<p class="empty">no properties added yet! <a href="post_property.php" style="margin-top:1.5rem;" class="btn">add new</a></p>';
+            }
          }
       }else{
-         echo '<p class="empty">no properties added yet! <a href="post_property.php" style="margin-top:1.5rem;" class="btn">add new</a></p>';
+         echo '<p class="empty">no properties saved yet! <a href="listings.php" style="margin-top:1.5rem;" class="btn">discover more</a></p>';
       }
       ?>
       
    </div>
 
-   <div style="margin-top: 2rem; text-align:center;">
-      <a href="listings.php" class="inline-btn">view all</a>
-   </div>
-
 </section>
-
-<!-- listings section ends -->
-
-
 
 
 
@@ -210,19 +145,12 @@ include 'components/save_send.php';
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+<?php include 'components/footer.php'; ?>
+
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
 
 <?php include 'components/message.php'; ?>
-
-<script>
-
-   let range = document.querySelector("#range");
-   range.oninput = () =>{
-      document.querySelector('#output').innerHTML = range.value;
-   }
-
-</script>
 
 </body>
 </html>

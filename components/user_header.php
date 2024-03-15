@@ -4,11 +4,8 @@
 
    <nav class="navbar nav-1">
       <section class="flex">
-         <a href="home.php" class="logo"><i class="fas fa-house"></i>MyHome</a>
+         <a href="home.php" class="logo"><i class="fas fa-house"></i>Lingsat Apartments</a>
 
-         <ul>
-            <li><a href="post_property.php">post property<i class="fas fa-paper-plane"></i></a></li>
-         </ul>
       </section>
    </nav>
 
@@ -18,10 +15,9 @@
 
          <div class="menu">
             <ul>
-               <li><a href="#">my listings<i class="fas fa-angle-down"></i></a>
+               <li><a href="my_listings.php">my listings<i class="fas fa-angle-down"></i></a>
                   <ul>
                      <li><a href="dashboard.php">dashboard</a></li>
-                     <li><a href="post_property.php">post property</a></li>
                      <li><a href="my_listings.php">my listings</a></li>
                   </ul>
                </li>
@@ -48,7 +44,8 @@
                   <?php if($user_id != ''){ ?>
                   <li><a href="update.php">update profile</a></li>
                   <li><a href="components/user_logout.php" onclick="return confirm('logout from this website?');">logout</a>
-                  <?php } ?></li>
+                  <?php } ?>
+               </li>
                </ul>
             </li>
          </ul>

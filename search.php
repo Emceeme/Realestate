@@ -18,7 +18,7 @@ include 'components/save_send.php';
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Home</title>
+   <title>Search Page</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
@@ -31,41 +31,57 @@ include 'components/save_send.php';
    
 <?php include 'components/user_header.php'; ?>
 
+<!-- search filter section starts  -->
 
-<!-- home section starts  -->
+<section class="filters" style="padding-bottom: 0;">
 
-<div class="home">
-
-   <section class="center">
-
-      <form action="search.php" method="post">
+   <form action="" method="post">
+      <div id="close-filter"><i class="fas fa-times"></i></div>
+      <h3>filter your search</h3>
+         
          <div class="flex">
             <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="h_min" class="input" required>
-                  <option value="1000">1000</option>
-                  <option value="1500">1500</option>
-                  <option value="2000">2000</option>
-                  <option value="3000">3000</option>
-                  <option value="3500">3500</option>
-                  <option value="4000">4000</option>
-                  <option value="4500">4500</option>
-                  <option value="5000">5000</option>
-                  <option value="5500">5500</option>
+               <p>offer type</p>
+               <select name="offer" class="input" required>
+                  <option value="rent">rent</option>
                </select>
             </div>
             <div class="box">
-               <p>maximum budget <span>*</span></p>
-               <select name="h_max" class="input" required>
-                  <option value="1000">1000</option>
-                  <option value="1500">1500</option>
-                  <option value="2000">2000</option>
-                  <option value="3000">3000</option>
-                  <option value="3500">3500</option>
-                  <option value="4000">4000</option>
-                  <option value="4500">4500</option>
-                  <option value="5000">5000</option>
-                  <option value="5500">5500</option>
+               <p>property type</p>
+               <select name="type" class="input" required>
+                  <option value="flat">Apartment</option>
+               </select>
+            </div>
+            <div class="box">
+               <p>how many BHK</p>
+               <select name="bhk" class="input" required>
+                  <option value="1">1 BHK</option>
+                  <option value="2">2 BHK</option>
+                  <option value="3">3 BHK</option>
+               </select>
+            </div>
+            <div class="box">
+               <p>maximum budget</p>
+               <select name="min" class="input" required>
+                  <option value="5000">2,500</option>
+                  <option value="5000">3,000</option>
+                  <option value="5000">3,500</option>
+                  <option value="5000">4,000</option>
+                  <option value="5000">4,500</option>
+                  <option value="5000">5,000</option>
+                  <option value="5000">5,500</option>
+               </select>
+            </div>
+            <div class="box">
+               <p>maximum budget</p>
+               <select name="max" class="input" required>
+                  <option value="5000">2,500</option>
+                  <option value="5000">3,000</option>
+                  <option value="5000">3,500</option>
+                  <option value="5000">4,000</option>
+                  <option value="5000">4,500</option>
+                  <option value="5000">5,000</option>
+                  <option value="5000">5,500</option>
 
                </select>
             </div>
@@ -85,30 +101,79 @@ include 'components/save_send.php';
                </select>
             </div>
          </div>
-         </div>
-         <input type="submit" value="search property" name="h_search" class="btn">
-      </form>
+         <input type="submit" value="search property" name="filter_search" class="btn">
+   </form>
 
-   </section>
+</section>
 
-</div>
+<!-- search filter section ends -->
 
-<!-- home section ends -->
+<div id="filter-btn" class="fas fa-filter"></div>
+
+<?php
+
+if(isset($_POST['h_search'])){
+
+   $h_location = $_POST['h_location'];
+   $h_location = filter_var($h_location, FILTER_SANITIZE_STRING);
+   $h_type = $_POST['h_type'];
+   $h_type = filter_var($h_type, FILTER_SANITIZE_STRING);
+   $h_offer = $_POST['h_offer'];
+   $h_offer = filter_var($h_offer, FILTER_SANITIZE_STRING);
+   $h_min = $_POST['h_min'];
+   $h_min = filter_var($h_min, FILTER_SANITIZE_STRING);
+   $h_max = $_POST['h_max'];
+   $h_max = filter_var($h_max, FILTER_SANITIZE_STRING);
+
+   $select_properties = $conn->prepare("SELECT * FROM `property` WHERE address LIKE '%{$h_location}%' AND type LIKE '%{$h_type}%' AND offer LIKE '%{$h_offer}%' AND price BETWEEN $h_min AND $h_max ORDER BY date DESC");
+   $select_properties->execute();
+
+}elseif(isset($_POST['filter_search'])){
+
+   $location = $_POST['location'];
+   $location = filter_var($location, FILTER_SANITIZE_STRING);
+   $type = $_POST['type'];
+   $type = filter_var($type, FILTER_SANITIZE_STRING);
+   $offer = $_POST['offer'];
+   $offer = filter_var($offer, FILTER_SANITIZE_STRING);
+   $bhk = $_POST['bhk'];
+   $bhk = filter_var($bhk, FILTER_SANITIZE_STRING);
+   $min = $_POST['min'];
+   $min = filter_var($min, FILTER_SANITIZE_STRING);
+   $max = $_POST['max'];
+   $max = filter_var($max, FILTER_SANITIZE_STRING);
+   $status = $_POST['status'];
+   $status = filter_var($status, FILTER_SANITIZE_STRING);
+   $furnished = $_POST['furnished'];
+   $furnished = filter_var($furnished, FILTER_SANITIZE_STRING);
+
+   $select_properties = $conn->prepare("SELECT * FROM `property` WHERE address LIKE '%{$location}%' AND type LIKE '%{$type}%' AND offer LIKE '%{$offer}%' AND bhk LIKE '%{$bhk}%' AND status LIKE '%{$status}%' AND furnished LIKE '%{$furnished}%' AND price BETWEEN $min AND $max ORDER BY date DESC");
+   $select_properties->execute();
+
+}else{
+   $select_properties = $conn->prepare("SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
+   $select_properties->execute();
+}
+
+?>
 
 <!-- listings section starts  -->
 
 <section class="listings">
 
-   <h1 class="heading">latest listings</h1>
+   <?php 
+      if(isset($_POST['h_search']) or isset($_POST['filter_search'])){
+         echo '<h1 class="heading">search results</h1>';
+      }else{
+         echo '<h1 class="heading">latest listings</h1>';
+      }
+   ?>
 
    <div class="box-container">
       <?php
          $total_images = 0;
-         $select_properties = $conn->prepare("SELECT * FROM `property` ORDER BY date DESC LIMIT 6");
-         $select_properties->execute();
          if($select_properties->rowCount() > 0){
             while($fetch_property = $select_properties->fetch(PDO::FETCH_ASSOC)){
-               
             $select_user = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
             $select_user->execute([$fetch_property['user_id']]);
             $fetch_user = $select_user->fetch(PDO::FETCH_ASSOC);
@@ -187,14 +252,10 @@ include 'components/save_send.php';
       <?php
          }
       }else{
-         echo '<p class="empty">no properties added yet! <a href="post_property.php" style="margin-top:1.5rem;" class="btn">add new</a></p>';
+         echo '<p class="empty">no results found!</p>';
       }
       ?>
       
-   </div>
-
-   <div style="margin-top: 2rem; text-align:center;">
-      <a href="listings.php" class="inline-btn">view all</a>
    </div>
 
 </section>
@@ -208,7 +269,12 @@ include 'components/save_send.php';
 
 
 
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+<?php include 'components/footer.php'; ?>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
@@ -217,10 +283,13 @@ include 'components/save_send.php';
 
 <script>
 
-   let range = document.querySelector("#range");
-   range.oninput = () =>{
-      document.querySelector('#output').innerHTML = range.value;
-   }
+document.querySelector('#filter-btn').onclick = () =>{
+   document.querySelector('.filters').classList.add('active');
+}
+
+document.querySelector('#close-filter').onclick = () =>{
+   document.querySelector('.filters').classList.remove('active');
+}
 
 </script>
 
