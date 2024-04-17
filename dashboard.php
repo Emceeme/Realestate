@@ -42,9 +42,9 @@ if(isset($_COOKIE['user_id'])){
          $select_profile->execute([$user_id]);
          $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
       ?>
-      <h3>welcome!</h3>
+      <h3>Update Profile</h3>
       <p><?= $fetch_profile['name']; ?></p>
-      <a href="update.php" class="btn">update profile</a>
+      <a href="update.php" class="btn">update</a>
       </div>
 
       <div class="box">

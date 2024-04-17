@@ -2,27 +2,33 @@
 
 include 'components/connect.php';
 
-if(isset($_COOKIE['user_id'])){
+if (isset($_COOKIE['user_id'])) {
    $user_id = $_COOKIE['user_id'];
-}else{
+} else {
    $user_id = '';
 }
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
 
    $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING); 
+   $email = filter_var($email, FILTER_SANITIZE_STRING);
    $pass = sha1($_POST['pass']);
-   $pass = filter_var($pass, FILTER_SANITIZE_STRING); 
+   $pass = filter_var($pass, FILTER_SANITIZE_STRING);
 
    $select_users = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ? LIMIT 1");
    $select_users->execute([$email, $pass]);
    $row = $select_users->fetch(PDO::FETCH_ASSOC);
 
-   if($select_users->rowCount() > 0){
-      setcookie('user_id', $row['id'], time() + 60*60*24*30, '/');
-      header('location:choose_role.php');
-   }else{
+   if ($select_users->rowCount() > 0) {
+      setcookie('user_id', $row['id'], time() + 60 * 60 * 24 * 30, '/');
+      
+      // Check if the user is an owner
+      if ($row['role'] == 'owner') {
+         header('location: property_owners_page.php'); // Redirect to the property owners page
+      } else {
+         header('location: home.php'); // Redirect to the default home page
+      }
+   } else {
       $warning_msg[] = 'Incorrect username or password!';
    }
 
@@ -54,7 +60,7 @@ if(isset($_POST['submit'])){
 <section class="form-container">
 
    <form action="" method="post">
-      <h3>welcome back!</h3>
+      <h3>Please Login</h3>
       <input type="email" name="email" required maxlength="50" placeholder="enter your email" class="box">
       <input type="password" name="pass" required maxlength="20" placeholder="enter your password" class="box">
       <p>don't have an account? <a href="register.html">register new</a></p>
@@ -65,17 +71,9 @@ if(isset($_POST['submit'])){
 
 <!-- login section ends -->
 
-
-
-
-
-
-
-
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+<?php include 'components/footer.php'; ?>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>

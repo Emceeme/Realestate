@@ -41,7 +41,7 @@ include 'components/save_send.php';
       <form action="search.php" method="post">
          <div class="flex">
             <div class="box">
-               <p>maximum budget <span>*</span></p>
+               <p>minimum budget <span>*</span></p>
                <select name="h_min" class="input" required>
                   <option value="1000">1000</option>
                   <option value="1500">1500</option>
@@ -167,7 +167,7 @@ include 'components/save_send.php';
             </div>
          </div>
          <div class="box">
-            <div class="price"><i class="fas fa-indian-rupee-sign"></i><span><?= $fetch_property['price']; ?></span></div>
+            <div class="price"><i class="fas fa-peso-sign"></i><span><?= $fetch_property['price']; ?></span></div>
             <h3 class="name"><?= $fetch_property['property_name']; ?></h3>
             <p class="location"><i class="fas fa-map-marker-alt"></i><span><?= $fetch_property['address']; ?></span></p>
             <div class="flex">

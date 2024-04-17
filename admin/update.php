@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 include '../components/connect.php';
 
@@ -12,6 +12,7 @@ if(isset($_COOKIE['admin_id'])){
 $select_profile = $conn->prepare("SELECT * FROM `admins` WHERE id = ? LIMIT 1");
 $select_profile->execute([$admin_id]);
 $fetch_profile = $select_profile->fetch(PDO::FETCH_ASSOC);
+
 
 if(isset($_POST['submit'])){
 

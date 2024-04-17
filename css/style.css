@@ -5,7 +5,7 @@
    --light-color:#666;
    --light-bg:#eee;
    --white:#fff;
-   --black:#8d0686;
+   --black:#090109;
    --border:.1rem solid var(--light-color);
    --box-shodow:0 .5rem 1rem rgba(0,0,0,.1);
 }
@@ -198,6 +198,7 @@ section{
 .home{
    background-size: cover;
    background-position: center;
+   background-image: url("C:\Users\Dell\Downloads\image_processing20220203-27189-37sbm7.gif");
 }
 
 .home .center{

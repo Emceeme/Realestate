@@ -30,18 +30,14 @@ if(isset($_POST['post'])){
    $bedroom = filter_var($bedroom, FILTER_SANITIZE_STRING);
    $bathroom = $_POST['bathroom'];
    $bathroom = filter_var($bathroom, FILTER_SANITIZE_STRING);
-   $balcony = $_POST['balcony'];
-   $balcony = filter_var($balcony, FILTER_SANITIZE_STRING);
-   $age = $_POST['age'];
-   $age = filter_var($age, FILTER_SANITIZE_STRING);
-   $total_floors = $_POST['total_floors'];
-   $total_floors = filter_var($total_floors, FILTER_SANITIZE_STRING);
-   $room_floor = $_POST['room_floor'];
-   $room_floor = filter_var($room_floor, FILTER_SANITIZE_STRING);
    $loan = $_POST['loan'];
    $loan = filter_var($loan, FILTER_SANITIZE_STRING);
    $description = $_POST['description'];
    $description = filter_var($description, FILTER_SANITIZE_STRING);
+   $Rent_type= $_POST ['Rent_type'];
+   $Rent_type= filter_var($Rent_type, FILTER_SANITIZE_STRING);
+   $term=$_POST ['term'];
+   $term=filter_var($term, FILTER_SANITIZE_STRING);
 
    if(isset($_POST['lift'])){
       $lift = $_POST['lift'];
@@ -199,8 +195,8 @@ if(isset($_POST['post'])){
    if($image_01_size > 2000000){
       $warning_msg[] = 'image 01 size too large!';
    }else{
-      $insert_property = $conn->prepare("INSERT INTO `property`(id, user_id, property_name, price, type, offer, status, furnished, bhk, bedroom, bathroom, balcony, age, room_floor, loan, lift, security_guard, play_ground, garden, water_supply, power_backup, parking_area, gym, shopping_mall, hospital, school, market_area, image_01, image_02, image_03, image_04, image_05, description) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"); 
-      $insert_property->execute([$id, $user_id, $property_name, $price, $type, $offer, $status, $furnished, $bhk, $bedroom, $bathroom, $balcony, $age, $room_floor, $loan, $lift, $security_guard, $play_ground, $garden, $water_supply, $power_backup, $parking_area, $gym, $shopping_mall, $hospital, $school, $market_area, $rename_image_01, $rename_image_02, $rename_image_03, $rename_image_04, $rename_image_05, $description]);
+      $insert_property = $conn->prepare("INSERT INTO `property`(id, user_id, property_name, term, price, Rent_type,type, offer, status, furnished, bhk, bedroom, bathroom, loan, lift, security_guard, play_ground, garden, water_supply, power_backup, parking_area, gym, shopping_mall, hospital, school, market_area, image_01, image_02, image_03, image_04, image_05, description) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"); 
+      $insert_property->execute([$id, $user_id, $property_name, $term,  $price, $type, $Rent_type, $offer, $status, $furnished, $bhk, $bedroom, $bathroom, $loan, $lift, $security_guard, $play_ground, $garden, $water_supply, $power_backup, $parking_area, $gym, $shopping_mall, $hospital, $school, $market_area, $rename_image_01, $rename_image_02, $rename_image_03, $rename_image_04, $rename_image_05, $description]);
       move_uploaded_file($image_01_tmp_name, $image_01_folder);
       $success_msg[] = 'property posted successfully!';
    }
@@ -254,6 +250,22 @@ if(isset($_POST['post'])){
             </select>
          </div>
          <div class="box">
+            <p>Rent type<span>*</span></p>
+            <select name="Rent_type" required class="input">
+               <option value="Bed_Spacer">Bed Spacer</option>
+               <option value="solo_Room">Solo room</option>
+               <option value="2_person">2 person</option>
+               <option value= "4_pax">4 pax</option>
+            </select>
+         </div>
+         <div class="box">
+            <p>period of stay</p>
+            <select name="term" required class="input">
+               <option value="short_term">short term</option>
+               <option value="Long_term">Long Term</option>
+            </select>
+         </div>
+         <div class="box">
             <p>property status <span>*</span></p>
             <select name="status" required class="input">
                <option value="ready to move">ready to move</option>
@@ -271,6 +283,7 @@ if(isset($_POST['post'])){
             <p>how many BHK <span>*</span></p>
             <select name="bhk" required class="input">
                <option value="1">1 BHK</option>
+               <optiotn value="2">2 BHK></option>
             </select>
          </div>
          <div class="box">
@@ -279,6 +292,8 @@ if(isset($_POST['post'])){
                <option value="0">0 bedroom</option>
                <option value="1" selected>1 bedroom</option>
                <option value="2">2 bedroom</option>
+               <option vlaue="3">3 bedroom</option>
+               <option value="4">4 bedroom</option>
             </select>
          </div>
          <div class="box">
@@ -287,21 +302,6 @@ if(isset($_POST['post'])){
                <option value="1">1 bathroom</option>
                <option value="2">2 bathroom</option>
             </select>
-         </div>
-         <div class="box">
-            <p>how many balconys <span>*</span></p>
-            <select name="balcony" required class="input">
-               <option value="0">0 balcony</option>
-               <option value="1">1 balcony</option>
-            </select>
-         </div>
-         <div class="box">
-            <p>property age <span>*</span></p>
-            <input type="number" name="age" required min="0" max="99" maxlength="2" placeholder="how old is property?" class="input">
-         </div>
-         <div class="box">
-            <p>floor room <span>*</span></p>
-            <input type="number" name="room_floor" required min="0" max="99" maxlength="2" placeholder="property floor number" class="input">
          </div>
          <div class="box">
             <p>loan <span>*</span></p>
@@ -365,8 +365,6 @@ if(isset($_POST['post'])){
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-<?php include 'components/footer.php'; ?>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
